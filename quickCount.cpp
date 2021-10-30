@@ -4,7 +4,7 @@ int exct_alkyl(int n){
     int sum = 0; --n;
     if(n%3==0) { //三个均相等
         int part = exct_alkyl(n/3);
-        sum += part*(part+1)*(part+2)/6;
+        sum += part*(part+1)*(part+2)/24;
     }
     for(int a=n/3+1;a<=n;a++){
         int part = exct_alkyl(a);
