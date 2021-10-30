@@ -1,8 +1,8 @@
 // 烷基精确公式【单取代饱和烃】
-int exct_alkyl(int);
+int alkyl(int);
 // 有标记的碳
-int exct_signAlkane(int);
+int signAlkane(int);
 // 有标记的碳键【单烯烃】
-int exct_signBond(int);
+int monoAlkene(int);
 // 烷烃精确公式
-int exct_alkane(int);
+int alkane(int);
