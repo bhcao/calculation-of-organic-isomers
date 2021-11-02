@@ -4,7 +4,7 @@ int alkyl(int n){
     int sum = 0; --n;
     if(n%3==0) { //三个均相等
         int part = alkyl(n/3);
-        sum += part*(part+1)*(part+2)/24;
+        sum += part*(part+1)*(part+2)/6;
     }
     for(int a=n/3+1;a<=n;a++){
         int part = alkyl(a);
@@ -26,7 +26,7 @@ int signAlkane(int n){
     int sum = 0; --n;
     if(n%4==0) { //四个均相等
         int part = alkyl(n/4);
-        sum += part*(part+1)*(part+2)*(part+3)/10;
+        sum += part*(part+1)*(part+2)*(part+3)/24;
     }
     for(int i=0;i<=n/3;i++){ //三个相等
         int part = alkyl(i);
