@@ -1,3 +1,5 @@
+#ifndef QUICKCOUNT_H
+#define QUICKCOUNT_H
 // 烷基精确公式【单取代饱和烃】
 int alkyl(int);
 // 有标记的碳
@@ -6,3 +8,4 @@ int signAlkane(int);
 int monoAlkene(int);
 // 烷烃精确公式
 int alkane(int);
+#endif // QUICKCOUNT_H
