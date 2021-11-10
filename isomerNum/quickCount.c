@@ -37,15 +37,11 @@ int alkyl(int n){
 
 int in_signAlkane(int n, int* pAlkyl){
     int sum = 0; --n;
-    if(n%4==0) { //四个均相等
-        int part = pAlkyl[n/4];
-        sum += part*(part+1)*(part+2)*(part+3)/24;
-    }
-    for(int i=0;i<=n/3;i++){ //三个相等
-        int part = pAlkyl[i];
+    if(n%4==0) //四个均相等
+        sum += pAlkyl[n/4]*(pAlkyl[n/4]+1)*(pAlkyl[n/4]+2)*(pAlkyl[n/4]+3)/24;
+    for(int i=0;i<=n/3;i++) //三个相等
         if(n%4!=0||i!=n/4)
-            sum += part*(part+1)*(part+2)*pAlkyl[n-3*i]/6;
-    }
+            sum += pAlkyl[i]*(pAlkyl[i]+1)*(pAlkyl[i]+2)*pAlkyl[n-3*i]/6;
     if(n%2==0){
         for(int i=0;i<n/4;i++) //两组两个相等
             sum += pAlkyl[i]*(pAlkyl[i]+1)*(pAlkyl[n/2-i]+1)*pAlkyl[n/2-i]/4;
