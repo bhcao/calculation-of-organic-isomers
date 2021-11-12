@@ -33,3 +33,6 @@
 
 # Python Moudle files
 build
+
+# Back up
+*.bak
