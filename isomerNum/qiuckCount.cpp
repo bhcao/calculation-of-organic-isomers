@@ -1,5 +1,3 @@
-#include<stdlib.h>
-
 int in_alkyl(int n, int* pAlkyl){
     int sum = 0;
     n--;
@@ -20,18 +18,18 @@ int in_alkyl(int n, int* pAlkyl){
 }
 
 #define ALKYL_LIST \
-int *pAlkyl = (int*)malloc((n+1)*sizeof(int)); \
+int *pAlkyl = new int[n+1]; \
 for(int i=0; i<=n; i++){ \
     if(i==0 || i==1 || i==2) \
         pAlkyl[i] = 1; \
     else \
         pAlkyl[i] = in_alkyl(i, pAlkyl); \
-} // 必须与 free(pAlkyl) 配合使用
+} // 必须与 delete []pAlkyl 配合使用
 
 int alkyl(int n){
     ALKYL_LIST
     int final = pAlkyl[n];
-    free(pAlkyl);
+    delete []pAlkyl;
     return final;
 }
 
@@ -74,7 +72,7 @@ int in_monoAlkene(int n, int *pAlkyl){
 int monoAlkene(int n){
     ALKYL_LIST
     int final = in_monoAlkene(n, pAlkyl);
-    free(pAlkyl);
+    delete []pAlkyl;
     return final;
 }
 
@@ -85,6 +83,6 @@ int alkane(int n){
         final = in_signAlkane(n, pAlkyl)-in_monoAlkene(n, pAlkyl)+pAlkyl[n/2];
     else
         final = in_signAlkane(n, pAlkyl)-in_monoAlkene(n, pAlkyl);
-    free(pAlkyl);
+    delete []pAlkyl;
     return final;
 }
