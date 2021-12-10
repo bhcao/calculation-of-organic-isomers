@@ -16,13 +16,13 @@
 
 > python setup.py install
 
-直接安装到电脑系统，则无需在同一目录下即可导入。注意安装时开启权限（Windows 下使用管理员权限打开 cmd，Linux、MacOS 加 sudo 等）。
+直接安装到电脑系统，则无需在同一目录下即可导入。注意安装时开启权限（Windows 下使用管理员权限打开 cmd，Linux、MacOS 加 sudo 等）。安装完成后可双击 test.py 文件（或使用命令行）测试是否调用成功。
 
 ### 导入方法
 
 库名为 isomerNum，由两个子模块 listAll、quickCount 组成，可以使用
 
-> from isomerNum import quickCount
+> from isomerNum import quickCount  
 > from isomerNum import listAll
 
 导入。可供调用的具体函数如下：
