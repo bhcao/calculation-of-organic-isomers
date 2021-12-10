@@ -1,81 +1,73 @@
 # 有机物同分异构体计算
 
-有什么说明直接修改这个文件即可，不要只阅读自己的部分，都看看。文件可以自己加，改后缀名等。visual studio 中 [git使用](https://blog.csdn.net/weixin_34130389/article/details/93495451)，如果怕麻烦，也可以直接在 gitee 官网上操作，进入文件后有一个 WEB IDE 选项可以直接类似 visual studio 界面操作，也可以写好后手动上传文件。git 使用可以自学
+## 仓库简介
 
-## Python 库 isomerNum（C 语言部分）
+本仓库为南开大学 C++ 程序设计基础（上）课程大作业。目标是提供分子式较为简单的有机化合物（单取代烃、烷烃、单烯烃等）同分异构体列举以及数目的计算。
 
-写在 isomerNum 文件夹中。可以使用 C++ 初稿，但是写成 Python 库最后需要改写成 C 语言。[C 语言与 c++ 区别，注意事项](https://blog.csdn.net/czc1997/article/details/81254971)所以不要使用**类**！既然是函数库，就写成函数（不要主函数，不要 cin、cout），在头文件中说明清楚。其余到时候我稍微改改就行。最好把函数说明在头文件中写清楚！
+## 安装及调试
 
-### bigNum.c 和 bigNum.h （大数计算部分）
+### 安装步骤（自行从源码安装）
 
-**分工：曹博涵**
-
-这里面定义结构体大数，及加减乘除，和大数的阅读（一方面转换成字符串供阅读，一方面转化成浮点数供 Python 解析）。（不急，反正从网上改）大家先用 int 写逻辑，最后我在把大数加进去（反正不影响 isomenNum 库函数）
-
-### setup.py 和 isomerNum.c（Python/C API）
-
-**分工：曹博涵**
-
-这个就是与 Python 的接口，我会把大家头文件中的函数加入函数库，使用命令
+需已有配置好的 VC、GCC 等 C/C++ 编译器。在命令提示符 cmd（或终端）中利用 cd 命令进入当前目录（有 setup.py 文件的部分），使用命令
 
 > python setup.py build
 
-（或 python3）构建成链接库（.dll），与 .py 文件放一起即可使用
-
-> import isomerNum as iso
-
-导入。具体函数说明见 setup.py 上注释部分
-
-全部完成后也可以使用
+（或 python3）构建成链接库（.so 或 .dll），与需调用的 .py 文件放一起即可使用。也可以使用
 
 > python setup.py install
 
-安装到电脑系统（调试阶段不建议）
+直接安装到电脑系统，则无需在同一目录下即可导入。注意安装时开启权限（Windows 下使用管理员权限打开 cmd，Linux、MacOS 加 sudo 等）。
 
-### listAll.c /listAll.h
+### 导入方法
 
-**分工：何晴雨**
+库名为 isomerNum，由两个子模块 listAll、quickCount 组成，可以使用
 
-穷举法，将最后结果用数表表示（矩阵），与我协商这个矩阵的规范（比如按什么顺序列出，函数返回的是字符串的指针，怎么一个个得到字符串？）
+> from isomerNum import quickCount
+> from isomerNum import listAll
 
-SMILES 规范化参考 Canonical SMILES，可以将 SMILES 唯一化（与分子结构一一对应）（Python 库 RDKit 有，见末尾），可能有参考的排除重复的算法。
+导入。可供调用的具体函数如下：
 
-### tranSMILES.c/ tranSMILES.h
+1. quickCount.alkyl(int number-of-carbon) # 烷基（单取代烃），返回值为具体数值
+2. quickCount.alkane(int number-of-carbon) # 烷烃，返回值为具体数值
+3. quickCount.monoAlkene(int number-of-carbon) # 一个键标记的烷（烯、炔、醚），返回值为具体数值
+4. quickCount.cycloAlk(int number-of-carbon) # 单环烷烷烃，返回值为具体数值
+4. listAll.lsAlkene(int number-of-carbon, str name-of-substituent) # 烷基（单取代烃），返回值为 SMILES 字符串列表
+5. listAll.lsMonosub(int number-of-carbon, str name-of-substituent) # 一个键标记的烷（烯、炔、醚），返回值为 SMILES 字符串列表
 
-**分工：曹博涵**
+## C++ Python 库 isomerNum 部分架构
 
-将矩阵转化为 SMILES 字符串（具体可能需要何晴雨与蒙洋提供需要的函数功能）
+### ln_listAll.cpp / ln_quickCount.cpp
 
-### cycloAlk.c/cycloAlk.h
+与 Python 交互的部分，定义了子模块 listAll、quickCount 中的函数与完全用 C++ 写的函数间的关系，如何调用及实现。
 
-**分工：江柔**
+### listAll.cpp / listAll.h
 
-环烷烃计算（可用函数：烷基数），自行找算法（网上可能没有，其实就回忆高中排列组合的知识，有一个环的染色问题，可能可以参考参考），最后可以与 quickCount.c 合并，稍微修改算法以加速
+listAll 中所有函数函数对应的代码部分。
 
-### quickCount.c/quickCount.h
+### cycloAlk.cpp / cycloAlk.h
 
-**已完成**
+环烷烃计算，quickCount 中 cycloAlk 函数对应的代码部分。
 
-快速计算，已经完成了烷基（饱和单取代，包括卤素原子，氧、硫的话其实也可以做，因为对于醇来说就是单取代，对于醚来说就是一个键有标记的，就是烯烃）、一个碳有标记的（烯烃、炔烃）、烷烃（这个因为中途涉及步骤应该可以简化，我会试着用波利亚计数定理最后有时间的话改一改）
+### quickCount.cpp / quickCount.h
 
-## 展示界面（Python 部分）
+quickCount 中 alkyl、alkane、monoAlkene 对应的代码部分。
 
-**分工：蒙洋**
+## Python 展示界面部分架构
 
-写在 isomerNum 文件夹外面，有一个示例 pro.py。tkinter 库自学吧！注意怎么美观（美观可能有点难）
+根据输入的分子式及所需条件展示，可以用来进行 isomerNum 库的调试。使用 RDKit 库将 SMILES 结构式转化为图形。
 
-功能就是根据输入的分子式展示。可以使用复选框问用户是否需要结构式展示，可以提示用户是否需要某种特定的类型（比如只要烯烃）
+## 需要改进的部分
 
-1. 由于 isomerNum 库未定型，对于快速计算，你可以分两种情况；对于穷举，可以先把具体的放一放
-2. 穷举先研究如何使用化学库将 SMILES 结构式转化为图形（如果可以直接将矩阵转化为图形也行）
+1. 利用 mySQL 等数据库录入已计算的数据，实现运算的加速；
+2. 利用波利亚计数定理等实现算法的优化；
+3. 提供更多种类化合物同分异构题的计算及展示；
+4. 考虑立体异构（旋光异构及几何异构）；
+5. 利用大数计算实现更多碳数时的计算。
 
-放一个参考库，有 SMILES 展示。你们化学系可以学学，可能用上。[参考库，RDKit](http://rdkit.chenzhaoqiang.com/)
+## 贡献者
 
-## 以后（加速、展示）
-
-以前还说过可以尝试数据库加速，录入已计算的数据。有兴趣可以看看 mySQL，还是 Python 调用方便一点。[SQL 教程](https://www.runoob.com/sql/sql-tutorial.html)
-
-展示其实不急，但是说一说：我们还是都参与。展板我可以试试；大概如果录视频的话，简单的剪辑我可以试试。如果有谁愿意当“导演”，有什么想法可以说说，写这儿（可能演示就交给蒙洋了）
-
-最后完成之后我还是打算以开源的方式发布。反正私藏着也没什么用
+1. Python 界面展示：**蒙洋**
+2. listAll 和 quickCount 除了环烷烃的部分及链接库接口维护：**曹博涵**
+3. quickCount 环烷烃的部分：**江柔**
+4. 说明文档（论文）：**何晴雨**
 
