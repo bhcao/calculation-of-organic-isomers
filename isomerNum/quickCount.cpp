@@ -91,4 +91,47 @@ int alkane(int n){
     return finals;
 }
 
+#define maxn 50005
+
+int falc(int n){
+    int mul = 1;
+    for(int i=2;i<=n;i++)
+        mul *= i;
+    return mul;
+}
+
+int cycloAlk(int n){
+    int ans = 1;
+    int flag[maxn];
+    for(int i=3;i<=n;i++){
+        for(int j=1;j<=i;j++)
+            flag[j]=1;
+        int jud1=0, jud2=1, jud[maxn]={0}, jud3=i;
+        do{
+            for(int j=1;j<=n;j++){
+                if(flag[j]==1)
+                    jud1++;
+                if(jud1==jud3)
+                    break;
+            }
+            for(int z=jud1;z<=n;z++){
+                if(flag[z]!=0)
+                    jud[jud2]++;
+                else{
+                    flag[z]=0;
+                    flag[z+1]=1;
+                    break;
+                }
+            }
+            jud2++;
+            jud3--;//移动指针
+            int swi=1;
+            for(int z=1;z<=jud2;z++)
+                swi+=alkyl(jud[z]);
+            ans+=swi;
+        } while(jud3 != 0);
+    }
+    return ans;
+}
+
 } // namespace end
