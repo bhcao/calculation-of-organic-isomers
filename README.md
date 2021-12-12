@@ -1,5 +1,7 @@
 # 有机物同分异构体计算
 
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](http://choosealicense.com/licenses/mit/)
+
 ## 仓库简介
 
 本仓库为南开大学 C++ 程序设计基础（上）课程大作业。目标是提供分子式较为简单的有机化合物（单取代烃、烷烃、单烯烃等）同分异构体列举以及数目的计算。
@@ -10,9 +12,9 @@
 
 安装条件：需有配置好的 VC、GCC 等 C/C++ 编译器。在命令提示符 cmd（或终端）中利用 `cd` 命令进入当前目录（有 setup.py 文件的部分）进行操作。
 
-1. **仅构建：**使用命令 `python setup.py build` （或 `python3`）构建成链接库（.so、.dll 等），与需调用的 .py 文件放一起即可使用。
-2. **直接安装：**使用 `python setup.py install` 直接安装，则无需在同一目录下即可导入。注意安装时开启权限（Windows 下使用管理员权限打开 cmd，Linux、MacOS 加 sudo 等）。
-3. **使用包管理器 pip 等安装：**使用 `python setup.py bdist_wheel` 打包成 `.whl` 文件，并在生成的 `dist` 文件夹中使用 `pip install name`，name 为生成的文件名。
+1. **仅构建**：使用命令 `python setup.py build` （或 `python3`）构建成链接库（.so、.dll 等），与需调用的 .py 文件放一起即可使用。
+2. **直接安装**：使用 `python setup.py install` 直接安装，则无需在同一目录下即可导入。注意安装时开启权限（Windows 下使用管理员权限打开 cmd，Linux、MacOS 加 sudo 等）。
+3. **使用包管理器 pip 等安装**：使用 `python setup.py bdist_wheel` 打包成 `.whl` 文件，并在生成的 `dist` 文件夹中使用 `pip install name`，name 为生成的文件名。
 
 完成后可双击 test.py 文件（或使用命令行）测试是否调用成功。
 
