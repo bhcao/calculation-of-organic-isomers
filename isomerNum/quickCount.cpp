@@ -32,9 +32,9 @@ for(int i=0; i<=n; i++){ \
 
 int alkyl(int n){
     ALKYL_LIST
-    int finals = pAlkyl[n];
+    int ans = pAlkyl[n];
     delete []pAlkyl;
-    return finals;
+    return ans;
 }
 
 int in_signAlkane(int n, int* pAlkyl){
@@ -75,62 +75,67 @@ int in_monoAlkene(int n, int *pAlkyl){
 
 int monoAlkene(int n){
     ALKYL_LIST
-    int finals = in_monoAlkene(n, pAlkyl);
+    int ans = in_monoAlkene(n, pAlkyl);
     delete []pAlkyl;
-    return finals;
+    return ans;
 }
 
 int alkane(int n){
     ALKYL_LIST
-    int finals;
+    int ans;
     if(n%2==0)
-        finals = in_signAlkane(n, pAlkyl)-in_monoAlkene(n, pAlkyl)+pAlkyl[n/2];
+        ans = in_signAlkane(n, pAlkyl)-in_monoAlkene(n, pAlkyl)+pAlkyl[n/2];
     else
-        finals = in_signAlkane(n, pAlkyl)-in_monoAlkene(n, pAlkyl);
+        ans = in_signAlkane(n, pAlkyl)-in_monoAlkene(n, pAlkyl);
     delete []pAlkyl;
-    return finals;
+    return ans;
 }
 
 #define maxn 50005
 
-int falc(int n){
-    int mul = 1;
-    for(int i=2;i<=n;i++)
-        mul *= i;
-    return mul;
-}
-
 int cycloAlk(int n){
+    ALKYL_LIST
     int ans = 1;
     int flag[maxn];
     for(int i=3;i<=n;i++){
-        for(int j=1;j<=i;j++)
-            flag[j]=1;
-        int jud1=0, jud2=1, jud[maxn]={0}, jud3=i;
-        do{
-            for(int j=1;j<=n;j++){
-                if(flag[j]==1)
-                    jud1++;
-                if(jud1==jud3)
-                    break;
-            }
-            for(int z=jud1;z<=n;z++){
-                if(flag[z]!=0)
-                    jud[jud2]++;
-                else{
-                    flag[z]=0;
-                    flag[z+1]=1;
-                    break;
+        int num = n-i;
+        if(num>=i){
+            for(int j=1;j<=i;j++)
+                flag[j]=1;
+            int jud1=0, jud2=1, jud[maxn]={0}, jud3=i;
+            do{
+                for(int j=1;j<=n;j++){
+                    if(flag[j]==1)
+                        jud1++;
+                    if(jud1==jud3)
+                        break;
+                }
+                for(int z=jud1;z<=n;z++){
+                    if(flag[z]==0){
+                        flag[z]=0;
+                        flag[z+1]=1;
+                        break;
+                    } else
+                        jud[jud2]++;
+                }
+                jud2++;
+                jud3--;//移动指针
+                int swi=1;
+                for(int z=1;z<=jud2;z++)
+                    swi+=pAlkyl[jud[z]];
+                ans+=swi;
+            } while(jud3 != 0);
+        } else {
+            for(int j=1;j<=num;j++){
+                ans+=pAlkyl[j];
+                if(j!=1){
+                    ans*=(i/j);
+                    ans+=(num-1);
                 }
             }
-            jud2++;
-            jud3--;//移动指针
-            int swi=1;
-            for(int z=1;z<=jud2;z++)
-                swi+=alkyl(jud[z]);
-            ans+=swi;
-        } while(jud3 != 0);
+        }
     }
+    delete []pAlkyl;
     return ans;
 }
 
