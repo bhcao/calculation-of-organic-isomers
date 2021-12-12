@@ -16,5 +16,6 @@ setup(
     license = "MIT Licence",
     description = "Calculate the number of organic isomers of the specified formula. "
                   "List all possible structural formulas in SMILES languages.",
-    keywords = ["isomer", "calculation", "SMILES language"]
+    keywords = ["isomer", "calculation", "SMILES language"],
+    author = "Bohan Cao & Jiang Rou"
 )
