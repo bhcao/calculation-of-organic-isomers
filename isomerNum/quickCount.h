@@ -8,6 +8,7 @@ namespace qct{
     int monoAlkene(int);
     // calculate alkane exactly 
     int alkane(int);
+    int alkene(int);
     int cycloAlk(int);
 }
 

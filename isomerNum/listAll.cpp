@@ -74,7 +74,6 @@ string in_lsMonosub(char* substit, alkyl *in1, alkyl *in2 = NULL, alkyl *in3 = N
 
 void in_lsAlkylPart(alkyl* fiAlkyl, int n, alkyl* from){
     alkyl* thisAlkyl = fiAlkyl;
-    string mainChain = "\0";
     n--;
     bool first = true;
     if(n%3==0) // three are the same
@@ -122,6 +121,39 @@ void in_lsAlkylPart(alkyl* fiAlkyl, int n, alkyl* from){
             b++;
         }
     }
+}
+
+void in_lsPartAlkene(alkyl* fiAlkyl, int n, alkyl* from){
+    alkyl* thisAlkyl = fiAlkyl;
+    n--;
+    bool first = true;
+    for(int i=0;i<n/2;i++)
+        for(alkyl* comes = &from[i]; comes; comes = comes->next())
+        for(alkyl* comes2 = &from[n-i]; comes2; comes2 = comes2->next()){
+            if(first){
+                fiAlkyl->setThis(comes, comes2);
+                first = false;
+            } else 
+                thisAlkyl = new alkyl(comes, comes2, NULL, thisAlkyl);
+        }
+    if(n%2==0)
+        for(alkyl* comes = &from[n/2]; comes; comes = comes->next())
+        for(alkyl* comes2 = comes; comes2; comes2 = comes2->next()){
+            if(first){
+                fiAlkyl->setThis(comes, comes2);
+                first = false;
+            } else 
+                thisAlkyl = new alkyl(comes, comes2, NULL, thisAlkyl);
+        }
+    else
+        for(alkyl* comes = &from[n/2]; comes; comes = comes->next())
+        for(alkyl* comes2 = &from[n/2+1]; comes2; comes2 = comes2->next()){
+            if(first){
+                fiAlkyl->setThis(comes, comes2);
+                first = false;
+            } else 
+                thisAlkyl = new alkyl(comes, comes2, NULL, thisAlkyl);
+        }
 }
 
 } // namespace lsa end

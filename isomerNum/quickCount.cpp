@@ -73,6 +73,31 @@ int in_monoAlkene(int n, int *pAlkyl){
     return sum;
 }
 
+int in_partAlkene(int n, int *pAlkyl){
+    int sum = 0;
+    n--;
+    for(int i=0;i<n/2;i++)
+        sum += pAlkyl[i]*pAlkyl[n-i];
+    if(n%2==0)
+        sum += pAlkyl[n/2]*(pAlkyl[n/2]+1)/2;
+    else
+        sum += pAlkyl[n/2]*pAlkyl[n/2+1];
+    return sum;
+}
+
+int alkene(int n){
+    ALKYL_LIST
+    int sum = 0;
+    for(int i=1;i<n/2;i++)
+        sum += in_partAlkene(i, pAlkyl)*in_partAlkene(n-i, pAlkyl);
+    if(n%2==0)
+        sum += in_partAlkene(n/2, pAlkyl)*(in_partAlkene(n/2, pAlkyl)+1)/2;
+    else
+        sum += in_partAlkene(n/2, pAlkyl)*in_partAlkene(n/2+1, pAlkyl);
+    delete []pAlkyl;
+    return sum;
+}
+
 int monoAlkene(int n){
     ALKYL_LIST
     int ans = in_monoAlkene(n, pAlkyl);

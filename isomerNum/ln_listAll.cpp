@@ -65,12 +65,45 @@ static PyObject *listAll_lsAlkene(PyObject *self, PyObject *args){
         for(alkyl* comes = &from[n/2]; comes; comes = comes->next())
         for(alkyl* comes2 = &from[n/2+1]; comes2; comes2 = comes2->next())
             PyList_Append(names, Py_BuildValue("s", (comes->verName()+substit+comes2->name()).data()));
+    delete []from;
+    return names;
+}
+
+static PyObject *listAll_lsAlkenes(PyObject *self, PyObject *args){
+    int n;
+    PyObject* names = PyList_New(0);
+    if(!PyArg_ParseTuple(args,"i", &n))
+        return NULL;
+    alkyl *from1 = new alkyl[n];
+    from1[0].setThis("\0",0);
+    from1[1].setThis("C",1);
+    for(int i=2;i<n;i++)
+        lsa::in_lsAlkylPart(&from1[i], i, from1);
+    alkyl *from = new alkyl[n];
+    from[1].setThis("C",1);
+    for(int i=2;i<n;i++)
+        lsa::in_lsPartAlkene(&from[i], i, from1);
+    for(int i=1;i<n/2;i++)
+        for(alkyl* comes = &from[i]; comes; comes = comes->next())
+        for(alkyl* comes2 = &from[n-i]; comes2; comes2 = comes2->next())
+            PyList_Append(names, Py_BuildValue("s", (comes->verName()+"="+comes2->name()).data()));
+    if(n%2==0)
+        for(alkyl* comes = &from[n/2]; comes; comes = comes->next())
+        for(alkyl* comes2 = comes; comes2; comes2 = comes2->next())
+            PyList_Append(names, Py_BuildValue("s", (comes->verName()+"="+comes2->name()).data()));
+    else
+        for(alkyl* comes = &from[n/2]; comes; comes = comes->next())
+        for(alkyl* comes2 = &from[n/2+1]; comes2; comes2 = comes2->next())
+            PyList_Append(names, Py_BuildValue("s", (comes->verName()+"="+comes2->name()).data()));
+    delete []from;
+    delete []from1;
     return names;
 }
 
 static PyMethodDef lsaMethod[] = {
     {"lsMonosub",listAll_lsMonosub,METH_VARARGS},
     {"lsAlkene",listAll_lsAlkene,METH_VARARGS},
+    {"lsAlkenes",listAll_lsAlkenes,METH_VARARGS},
     {NULL,NULL}
 };
 

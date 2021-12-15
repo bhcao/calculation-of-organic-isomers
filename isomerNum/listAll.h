@@ -56,6 +56,7 @@ public:
 namespace lsa{
     string in_lsMonosub(char* substit, alkyl *in1, alkyl *in2, alkyl *in3);
     void in_lsAlkylPart(alkyl* fiAlkyl, int n, alkyl* from);
+    void in_lsPartAlkene(alkyl* fiAlkyl, int n, alkyl* from);
 }
 
 #endif // LISTALL_H
