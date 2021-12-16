@@ -35,8 +35,10 @@
 2. quickCount.alkane(int number-of-carbon) # 烷烃，返回值为具体数值
 3. quickCount.monoAlkene(int number-of-carbon) # 一个键标记的烷（烯、炔、醚），返回值为具体数值
 4. quickCount.cycloAlk(int number-of-carbon) # 单环烷烷烃，返回值为具体数值
-4. listAll.lsAlkene(int number-of-carbon, str name-of-substituent) # 烷基（单取代烃），返回值为 SMILES 字符串列表
-5. listAll.lsMonosub(int number-of-carbon, str name-of-substituent) # 一个键标记的烷（烯、炔、醚），返回值为 SMILES 字符串列表
+5. quickCount.alkene(int number-of-carbon) # 烯烃，返回值为具体数值
+6. listAll.lsMonosub(int number-of-carbon, str name-of-substituent) # 烷基（单取代烃），返回值为 SMILES 字符串列表
+7. listAll.lsAlkene(int number-of-carbon, str name-of-substituent) # 一个键标记的烷（醚），返回值为 SMILES 字符串列表
+8. listAll.lsAlkenes(int number-of-carbon, str name-of-substituent) # 烯烃，返回值为 SMILES 字符串列表
 
 ## C++ Python 库 isomerNum 部分架构
 
