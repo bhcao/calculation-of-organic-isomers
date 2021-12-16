@@ -11,6 +11,23 @@ except:
 else:
     print("调用成功！")
 
+print("\n测试计算单烯烃...")
+try:
+    print(quickCount.alkene(n))
+except:
+    print("调用失败！")
+else:
+    print("调用成功！")
+
+print("\n测试列出单烯烃...")
+try:
+    print(listAll.lsAlkenes(n))
+except:
+    print("调用失败！")
+else:
+    print("调用成功！")
+
+
 print("\n测试列出单取代烃...")
 try:
     print(listAll.lsMonosub(n,w))
